@@ -1,0 +1,21 @@
+{
+  "name": "angular-simple-uploader",
+    "authors": [
+    "minutephp <dev@minutephp.com>"
+  ],
+  "description": "Simplest AngularJS upload plugin",
+  "main": "src/js/angular-simple-uploader.js",
+  "keywords": [
+    "angularjs",
+    "notice"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.minutephp.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
