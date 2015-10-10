@@ -10,9 +10,9 @@
                 scope: {accept: '@', multiple: '@', preview: '@', uploading: '=', onUploadComplete: '='},
                 link: function ($scope, element, attrs, ngModel) {
                     var guid = Math.random().toString(36).slice(2);
+                    var iframeHTML = '<iframe name="' + guid + '" width="1" height="1" style="opacity: 0;width:0;height:0;position: absolute;top:-100px;" tabindex="-1" src="/generic/simple-uploader"></iframe>';
 
-                    $('body').append('<iframe name="' + guid + '" width="1" height="1" style="opacity: 0;width:0;height:0;position: absolute;top:-100px;" tabindex="-1"' +
-                        ' src="/static/bower_components/angular-simple-uploader/src/html/angular-simple-uploader.html"></iframe>');
+                    $('body').append(iframeHTML);
 
                     var iframe = window.frames[guid];
                     var getHtml = function () {
