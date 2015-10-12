@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module('angularSimpleUploader', ['notice'])
-        .directive('uploadButton', ['$compile', '$timeout', function ($compile, $timeout) {
+    angular.module('angularSimpleUploader', ['notice', 'cfp.loadingBar'])
+        .directive('uploadButton', ['$compile', '$timeout', 'cfpLoadingBar', function ($compile, $timeout, cfpLoadingBar) {
             return {
                 restrict: 'A',
                 replace: false,
@@ -10,7 +10,7 @@
                 scope: {accept: '@', multiple: '@', preview: '@', uploading: '=', onUploadComplete: '='},
                 link: function ($scope, element, attrs, ngModel) {
                     var guid = Math.random().toString(36).slice(2);
-                    var iframeHTML = '<iframe name="' + guid + '" width="1" height="1" style="opacity: 0;width:0;height:0;position: absolute;top:-100px;" tabindex="-1" src="/generic/simple-uploader"></iframe>';
+                    var iframeHTML = '<iframe name="' + guid + '" width="1" height="1" style="opacity: 0;width:0;height:0;position: absolute;top:-100px;" tabindex="-1" src="/generic/file-uploader"></iframe>';
 
                     $('body').append(iframeHTML);
 
@@ -36,6 +36,7 @@
                         theFile.onchange = function () {
                             $timeout(function () {$scope.uploading = true;});
                             iframe.document.forms[0].submit();
+                            cfpLoadingBar.start();
                         };
 
                         if (theFile && theCb) {
@@ -50,10 +51,12 @@
                             window[guid] = function (uploads) {
                                 ngModel.$setViewValue($scope.multiple || !uploads ? uploads : uploads[0]);
                                 $timeout(function () {
+                                    $scope.uploading = false;
+                                    cfpLoadingBar.complete();
+
                                     if (typeof($scope.onUploadComplete) == 'function') {
                                         $scope.onUploadComplete(uploads);
                                     }
-                                    $scope.uploading = false;
                                 });
                                 window[guid] = null;
                             };
