@@ -34,7 +34,12 @@
                         var theFile = iframe.document.getElementById('theFile');
 
                         theFile.onchange = function () {
-                            $timeout(function () {$scope.uploading = true;});
+                            $timeout(function () {
+                                if (angular.isDefined($scope.uploading)) {
+                                    $scope.uploading = true;
+                                }
+                            });
+
                             iframe.document.forms[0].submit();
                             cfpLoadingBar.start();
                         };
@@ -50,12 +55,15 @@
 
                             window[guid] = function (uploads) {
                                 ngModel.$setViewValue($scope.multiple || !uploads ? uploads : uploads[0]);
+
                                 $timeout(function () {
-                                    $scope.uploading = false;
+                                    if (angular.isDefined($scope.uploading)) {
+                                        $scope.uploading = false;
+                                    }
                                     cfpLoadingBar.complete();
 
                                     if (typeof($scope.onUploadComplete) == 'function') {
-                                        $scope.onUploadComplete(uploads);
+                                        $scope.onUploadComplete(ngModel.$viewValue);
                                     }
                                 });
                                 window[guid] = null;
