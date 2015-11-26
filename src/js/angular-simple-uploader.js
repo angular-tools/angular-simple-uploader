@@ -27,7 +27,7 @@
 
                     element.click(function () {
                         var multiple = $scope.singular !== 'true';
-                        console.log("$scope.singular, multiple: ", $scope.singular, multiple);
+                        //console.log("$scope.singular, multiple: ", $scope.singular, multiple);
 
                         if (html) {
                             iframe.document.body.outerHTML = html;
